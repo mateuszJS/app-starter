@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "yarn build"
   },
   "author": "Remy Sharp <remy@leftlogic.com>",
   "dependencies": {
