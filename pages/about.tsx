@@ -4,6 +4,7 @@ const AboutPage = () => (
   <>
     <Nav />
     <p>Hello, I&apos;m the about page</p>
+    <img src="/images/plane.png" alt="" width="100" height="100" />
   </>
 )
 
