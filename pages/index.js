@@ -1,9 +1,6 @@
-import Nav from '../components/Nav'
-
 const IndexPage = () => (
   <>
-    <Nav />
-    <p>Hello, I'm the index page</p>
+    <h1>Hello, I'm the index page</h1>
   </>
 )
 
