@@ -8,6 +8,7 @@
   },
   "author": "Mateusz Walendzik <mate.walendzik@gmail.com>",
   "dependencies": {
+    "@next/bundle-analyzer": "^9.4.4",
     "next": "latest",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
