@@ -9,7 +9,7 @@ const Nav = () => {
     <nav className={classes.root}>
       <Head>
         {/* https://github.com/gokulkrishh/awesome-meta-and-manifest */}
-        <title>Next.js PWA Example</title>
+        <title>app-starter</title>
       </Head>
       <ul className="nav">
         <li>
