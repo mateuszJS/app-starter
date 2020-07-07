@@ -1,29 +1,30 @@
+import React, { ReactElement, Children } from 'react'
 import { useRouter } from 'next/router'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
-import React, { Children } from 'react'
 
-const ActiveLink = ({ children, activeClassName, ...props }) => {
+type Props = {
+  children: ReactElement<{ className?: string | null }> // for just children the best is ReactNode
+  activeClassName: string
+  href: string
+}
+
+const ActiveLink = ({ children, activeClassName, ...restProps }: Props) => {
   const { asPath } = useRouter()
   const child = Children.only(children)
   const childClassName = child.props.className || ''
 
   const className =
-    asPath === props.href
+    asPath === restProps.href
       ? `${childClassName} ${activeClassName}`.trim()
       : childClassName
 
   return (
-    <Link {...props}>
+    <Link {...restProps}>
       {React.cloneElement(child, {
         className: className || null,
       })}
     </Link>
   )
-}
-
-ActiveLink.propTypes = {
-  activeClassName: PropTypes.string.isRequired,
 }
 
 export default ActiveLink
