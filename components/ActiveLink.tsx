@@ -14,9 +14,7 @@ const ActiveLink = ({ children, activeClassName, ...restProps }: Props) => {
   const childClassName = child.props.className || ''
 
   const className =
-    asPath === restProps.href
-      ? `${childClassName} ${activeClassName}`.trim()
-      : childClassName
+    asPath === restProps.href ? `${childClassName} ${activeClassName}`.trim() : childClassName
 
   return (
     <Link {...restProps}>
