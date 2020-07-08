@@ -10,9 +10,13 @@
   "author": "Mateusz Walendzik <mate.walendzik@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "fela": "^11.3.0",
+    "fela-dom": "^11.3.0",
+    "fela-preset-web": "^11.3.0",
     "next": "latest",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "react-fela": "^11.3.0"
   },
   "license": "ISC",
   "devDependencies": {
