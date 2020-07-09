@@ -1,6 +1,6 @@
 import ActiveLink from './ActiveLink'
 import Head from 'next/head'
-import { makeStyles, Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
   root: {
@@ -22,7 +22,7 @@ const Nav = () => {
       </Head>
       <nav className={classes.root}>
         <h1 className={classes.text}>Navigation</h1>
-        <Button>Button</Button>
+        {/* <Button>Button</Button> */}
         <ul className="nav">
           <li>
             <ActiveLink activeClassName="active" href="/">
