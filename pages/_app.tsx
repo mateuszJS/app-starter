@@ -1,25 +1,18 @@
-import { FC, useEffect } from 'react'
-// import { StylesProvider } from '@material-ui/core/styles'
-// import CssBaseline from '@material-ui/core/CssBaseline'
-import '../styles/global.css'
+import { FC } from 'react'
+import globalStyles from '../styles/global'
 
 type Props = {
   Component: FC
   pageProps: Record<string, unknown>
 }
 
-const App = ({ Component, pageProps }: Props) => {
-  useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side')
-    if (jssStyles && jssStyles.parentNode) jssStyles.parentNode.removeChild(jssStyles)
-  })
-
-  return (
-    // <StylesProvider injectFirst>
-    // <CssBaseline />
+const App = ({ Component, pageProps }: Props) => (
+  <>
     <Component {...pageProps} />
-    // </StylesProvider>
-  )
-}
+    <style jsx global>
+      {globalStyles}
+    </style>
+  </>
+)
 
 export default App

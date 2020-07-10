@@ -1,20 +1,15 @@
 import Nav from '../components/Nav'
-import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
-  root: {
-    background: 'tomato',
-  },
-})
-
-const ContactPage = () => {
-  const classes = useStyles()
-  return (
-    <>
-      <Nav />
-      <p className={classes.root}>Contact</p>
-    </>
-  )
-}
+const ContactPage = () => (
+  <>
+    <Nav />
+    <p className="root">Contact</p>
+    <style jsx>{`
+      .root {
+        background: tomato;
+      }
+    `}</style>
+  </>
+)
 
 export default ContactPage
