@@ -1,4 +1,7 @@
 import Nav from '../components/Nav'
+// import useSWR from 'swr'
+// https://swr.vercel.app/
+// const { data, error } = useSWR('/api/user', fetch)
 
 const IndexPage = () => (
   <>

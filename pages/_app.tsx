@@ -1,18 +1,15 @@
-import { FC } from 'react'
+import { AppProps } from 'next/app'
+
 import globalStyles from '../styles/global'
-
-type Props = {
-  Component: FC
-  pageProps: Record<string, unknown>
+const App = ({ Component, pageProps }: AppProps) => {
+  return (
+    <>
+      <Component {...pageProps} />
+      <style jsx global>
+        {globalStyles}
+      </style>
+    </>
+  )
 }
-
-const App = ({ Component, pageProps }: Props) => (
-  <>
-    <Component {...pageProps} />
-    <style jsx global>
-      {globalStyles}
-    </style>
-  </>
-)
 
 export default App

@@ -16,8 +16,8 @@ const Nav = () => (
           </ActiveLink>
         </li>
         <li>
-          <ActiveLink activeClassName="active" href="/about">
-            <a className="nav-link">About</a>
+          <ActiveLink activeClassName="active" href="/dogz">
+            <a className="nav-link">Dogz</a>
           </ActiveLink>
         </li>
       </ul>
