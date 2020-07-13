@@ -9,6 +9,12 @@
     "analyze-source-maps": "rimraf .next && yarn build && source-map-explorer .next/static/*/*.js"
   },
   "author": "Mateusz Walendzik <mate.walendzik@gmail.com>",
+  "browserslist": [
+    ">0.3%",
+    "not ie 11",
+    "not dead",
+    "not op_mini all"
+  ],
   "dependencies": {
     "@next/bundle-analyzer": "^9.4.4",
     "next": "latest",
