@@ -1,5 +1,6 @@
 import ActiveLink from './ActiveLink'
 import Head from 'next/head'
+import theme from '@theme'
 
 const Nav = () => (
   <>
@@ -20,14 +21,24 @@ const Nav = () => (
             <a className="nav-link">Dogz</a>
           </ActiveLink>
         </li>
+        <li>
+          <ActiveLink activeClassName="active" href="/amp-example">
+            <a className="nav-link">Amp Example</a>
+          </ActiveLink>
+        </li>
       </ul>
     </nav>
     <style jsx>{`
       .root {
-        background-color: #ccc;
+        background-color: ${theme.colors.accent};
       }
       .text {
-        color: purple;
+        color: ${theme.colors.secondary};
+      }
+      @media (max-width: 600px) {
+        .text {
+          color: ${theme.colors.primary};
+        }
       }
     `}</style>
   </>

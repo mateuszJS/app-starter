@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next'
+import { NextPageContext } from 'next'
 
 // use for errors other then 404
 
@@ -6,19 +6,13 @@ type Props = {
   statusCode: number
 }
 
-function Error({ statusCode }: Props) {
-  return (
-    <p>
-      {statusCode ? `An error ${statusCode} occurred on server` : 'An error occurred on client'}
-    </p>
-  )
-}
+const Error = ({ statusCode }: Props) => (
+  <p>{statusCode ? `An error ${statusCode} occurred on server` : 'An error occurred on client'}</p>
+)
 
-const getInitialProps: GetInitialProps = ({ res, err }) => {
+Error.getInitialProps = async ({ res, err }: NextPageContext) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404
   return { statusCode }
 }
-
-Error.getInitialProps = getInitialProps
 
 export default Error

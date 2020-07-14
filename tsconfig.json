@@ -18,9 +18,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    // "paths": {
-    //   "@/components/*": ["components/*"]
-    // }
+    "paths": {
+      "@theme": [
+        "components/theme"
+      ]
+    }
   },
   "exclude": [
     "node_modules",

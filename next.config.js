@@ -13,4 +13,7 @@ const withSourceMaps = require('@zeit/next-source-maps')({
   },
 })
 
-module.exports = withPlugins([withSourceMaps, withBundleAnalyzer])
+module.exports = {
+  ...withPlugins([withSourceMaps, withBundleAnalyzer]),
+  poweredByHeader: false,
+}
