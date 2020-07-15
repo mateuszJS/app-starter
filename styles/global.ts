@@ -28,4 +28,8 @@ export default css.global`
     max-width: 100%;
     display: block;
   }
+
+  button: {
+    background-color: tomato;
+  }
 `
