@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import Nav from '../components/Nav'
+import { Typography } from '@ui'
 
 // import useSWR from 'swr'
 // https://swr.vercel.app/
@@ -14,7 +15,7 @@ const IndexPage = () => (
   <>
     <Nav />
     <DynamicComponent />
-    <h1>Hello, I&apos;m the index page</h1>
+    <Typography tKey="Hello, I'm the index page" />
     <p>{new Date('2020-07-13T10:47:05.541Z').toISOString()}</p>
   </>
 )

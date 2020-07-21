@@ -1,6 +1,6 @@
 import ActiveLink from './ActiveLink'
 import Head from 'next/head'
-import theme from '@theme'
+import { theme } from '@ui'
 
 const Nav = () => (
   <>

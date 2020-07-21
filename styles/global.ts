@@ -1,6 +1,6 @@
 import css from 'styled-jsx/css'
 
-export default css.global`
+const styles = css.global`
   html,
   body {
     padding: 0;
@@ -33,3 +33,5 @@ export default css.global`
     background-color: yellow;
   }
 `
+
+export default styles
