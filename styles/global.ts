@@ -29,7 +29,7 @@ export default css.global`
     display: block;
   }
 
-  button: {
-    background-color: tomato;
+  button {
+    background-color: yellow;
   }
 `

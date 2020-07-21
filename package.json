@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "analyze": "ANALYZE=true yarn build",
-    "analyze-source-maps": "rimraf .next && yarn build && source-map-explorer .next/static/*/*.js",
+    "analyze-source-maps": "rimraf .next && GENERATE_SOURCE_MAPS=true yarn build && source-map-explorer .next/static/*/*.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -18,9 +18,7 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "@next/bundle-analyzer": "^9.4.4",
     "next": "latest",
-    "next-compose-plugins": "^2.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
   },
@@ -36,15 +34,14 @@
     "@types/styled-jsx": "^2.2.8",
     "@typescript-eslint/eslint-plugin": "^3.6.0",
     "@typescript-eslint/parser": "^3.6.0",
-    "@zeit/next-source-maps": "^0.0.3",
-    "awesome-typescript-loader": "^5.2.1",
+    "@next/bundle-analyzer": "^9.4.4",
     "babel-loader": "^8.1.0",
-    "babel-preset-react-app": "^9.1.2",
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
+    "next-compose-plugins": "^2.2.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "source-map-explorer": "^2.4.2",

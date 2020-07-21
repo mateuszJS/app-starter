@@ -7,14 +7,8 @@ module.exports = ({ config }) => {
       {
         loader: require.resolve('babel-loader'),
         options: {
-          presets: [require.resolve('babel-preset-react-app')],
+          presets: [require.resolve('next/babel')],
         },
-      },
-      {
-        loader: require.resolve('awesome-typescript-loader'),
-        options:{
-          configFileName: path.resolve(__dirname, '../tsconfig.json')
-        }
       },
     ],
   });
