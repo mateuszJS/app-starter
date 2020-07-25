@@ -1,18 +1,22 @@
 import { GetServerSideProps } from 'next'
-
+import { withTranslation } from '@i18n'
+import { WithTranslation } from 'next-i18next'
 import Nav from '../components/Nav'
 
-const ContactPage = (props: { [key: string]: string }) => {
+const ContactPage = ({ t, ...props }: { [key: string]: string } & WithTranslation) => {
   return (
     <>
       <Nav />
-      <p className="root">Contact</p>
+      <p className="root">{t('title')}</p>
       <style jsx>{`
         .root {
           background: tomato;
         }
       `}</style>
-      <textarea value={JSON.stringify(props, null, 4)} style={{ width: '100%', height: 500 }} />
+      <textarea
+        value={JSON.stringify(props.data, null, 4)}
+        style={{ width: '100%', height: 500 }}
+      />
     </>
   )
 }
@@ -27,8 +31,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     previewData: The preview data set by setPreviewData. See the Preview Mode documentation.
   */
   return {
-    props: context.req.headers,
+    props: {
+      data: context.req.headers,
+    },
   }
 }
 
-export default ContactPage
+ContactPage.defaultProps = {
+  i18nNamespaces: ['contact'],
+}
+
+export default withTranslation('contact')(ContactPage)

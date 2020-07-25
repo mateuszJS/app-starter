@@ -1,3 +1,4 @@
+import { withTranslation } from '@i18n'
 import Nav from '../components/Nav'
 
 export const config = { amp: true }
@@ -17,4 +18,4 @@ const IndexPage = () => (
   </>
 )
 
-export default IndexPage
+export default withTranslation('common')(IndexPage)

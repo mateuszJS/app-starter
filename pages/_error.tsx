@@ -1,5 +1,5 @@
 import { NextPageContext } from 'next'
-
+import { withTranslation } from '@i18n'
 // use for errors other then 404
 
 type Props = {
@@ -12,7 +12,9 @@ const Error = ({ statusCode }: Props) => (
 
 Error.getInitialProps = async ({ res, err }: NextPageContext) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-  return { statusCode }
+  return {
+    statusCode,
+  }
 }
 
-export default Error
+export default withTranslation('common')(Error)

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Nav from 'components/Nav'
 import { getDogzList } from 'lib/dogz'
+import { withTranslation } from '@i18n'
 
 type Props = {
   breeds: string[]
@@ -41,4 +42,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default AboutPage
+export default withTranslation('common')(AboutPage)

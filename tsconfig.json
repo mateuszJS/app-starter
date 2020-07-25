@@ -21,6 +21,9 @@
     "paths": {
       "@ui": [
         "components"
+      ],
+      "@i18n": [
+        "i18n"
       ]
     }
   },
@@ -33,6 +36,6 @@
     "**/*.tsx",
     "next.config.js",
     "server.js",
-    "i18n.js"
+    "i18n/*.js"
   ]
 }

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { GetStaticProps } from 'next'
 import { getDogzList } from 'lib/dogz'
+import { withTranslation } from '@i18n'
 
 type Props = {
   imgSrc: string
@@ -120,4 +121,4 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export default Breed
+export default withTranslation('common')(Breed)
