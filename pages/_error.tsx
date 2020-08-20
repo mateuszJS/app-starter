@@ -1,10 +1,11 @@
 import { NextPageContext } from 'next'
 import { withTranslation } from '@i18n'
+import { WithTranslation } from 'next-i18next'
 // use for errors other then 404
 
 type Props = {
   statusCode: number
-}
+} & WithTranslation
 
 const Error = ({ statusCode }: Props) => (
   <p>{statusCode ? `An error ${statusCode} occurred on server` : 'An error occurred on client'}</p>

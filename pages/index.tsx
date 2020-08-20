@@ -13,14 +13,14 @@ const DynamicComponent = dynamic(() => import('components/DynamicComponent'), {
   ssr: false, // to avoid rendering on server side
 })
 
-const IndexPage = ({ t }: WithTranslation) => (
+const IndexPage = ({ t, i18n }: WithTranslation) => (
   <>
     <Nav />
     <DynamicComponent />
     <div>{t('title')}</div>
-    {/* <button onClick={() => i18n.i18n.changeLanguage(i18n.i18n.language === 'en' ? 'pl' : 'en')}>
+    <button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'pl' : 'en')}>
       Change locale
-    </button> */}
+    </button>
     <Typo tKey="Hello, I'm the index page" />
     <p>{new Date('2020-07-13T10:47:05.541Z').toISOString()}</p>
   </>

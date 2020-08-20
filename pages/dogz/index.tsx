@@ -2,10 +2,11 @@ import Link from 'next/link'
 import Nav from 'components/Nav'
 import { getDogzList } from 'lib/dogz'
 import { withTranslation } from '@i18n'
+import { WithTranslation } from 'next-i18next'
 
 type Props = {
   breeds: string[]
-}
+} & WithTranslation
 
 const AboutPage = ({ breeds }: Props) => (
   <>

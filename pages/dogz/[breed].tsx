@@ -3,10 +3,11 @@ import Link from 'next/link'
 import { GetStaticProps } from 'next'
 import { getDogzList } from 'lib/dogz'
 import { withTranslation } from '@i18n'
+import { WithTranslation } from 'next-i18next'
 
 type Props = {
   imgSrc: string
-}
+} & WithTranslation
 
 const Breed = ({ imgSrc }: Props) => {
   const router = useRouter()

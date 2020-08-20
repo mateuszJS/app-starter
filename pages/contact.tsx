@@ -37,8 +37,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-ContactPage.defaultProps = {
-  i18nNamespaces: ['contact'],
-}
-
 export default withTranslation('contact')(ContactPage)
