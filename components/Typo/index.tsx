@@ -3,40 +3,153 @@ import classnames from 'classnames'
 import { theme } from '@ui'
 
 type Props = {
-  width?: number
   loader?: boolean
   tKey?: string
-  color?: 'accent' | 'secondary' | 'inherit'
-  activeClassName?: string
+  color?: 'primary' | 'accent' | 'secondary'
+  variant?: 'headline' | 'subtitle' | 'body1' | 'body2' | 'button' | 'caption' | 'overline'
+  weight?: 'ultra-light' | 'regular' | 'medium' | 'semi-bold' | 'bold'
+  width?: string
+  className?: string
+  inline?: boolean
+  loaderFakeContent?: string
 } & Pick<TransProps, 'components' | 'values' | 'children'>
 
+const mapVariantToNode = {
+  headline: 'h1',
+  subtitle: 'h2',
+  body1: 'p',
+  body2: 'p',
+  button: 'span',
+  caption: 'p',
+  overline: 'p',
+} as const
+
 const Typography = ({
-  width,
-  loader,
   tKey,
   children,
   color,
-  activeClassName,
+  variant,
+  weight,
+  loader = false,
+  width = 'auto',
+  className,
+  inline,
+  loaderFakeContent = '\u00a0',
   ...restProps
 }: Props) => {
+  const Component = mapVariantToNode[variant || 'body1']
+
   return (
-    <p className={classnames('root', color, activeClassName)}>
+    <Component
+      className={classnames('root', className, {
+        [`color-${color}`]: color,
+        [`variant-${variant}`]: variant,
+        [`weight-${weight}`]: weight,
+        loader: loader,
+        inline: inline,
+      })}
+    >
       {tKey ? <Trans i18nKey={tKey} {...restProps} /> : children}
       <style jsx>{`
-        .primary {
+        .inline {
+          display: inline;
+        }
+        .root {
+          margin: 0;
+          color: inherit;
+          font-size: inherit;
+          font-weight: inherit;
+          letter-spacing: inherit;
+          line-height: inherit;
+          text-transform: inherit;
+        }
+        .loader:empty {
+          background: black;
+          position: relative;
+          overflow: hidden;
+          width: ${width};
+          border-radius: 3px;
+        }
+        @keyframes wave {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+        .loader:empty:before {
+          content: ${`'${loaderFakeContent}'`};
+          opacity: 0;
+          pointer-events: none;
+        }
+        .loader:empty:after {
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          content: '';
+          position: absolute;
+          animation: wave 1.6s linear 0.5s infinite;
+          transform: translateX(-100%);
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        }
+        .color-primary {
           color: ${theme.colors.primary};
         }
-        .accent {
+        .color-accent {
           color: ${theme.colors.accent};
         }
-        .secondary {
+        .color-secondary {
           color: ${theme.colors.secondary};
         }
-        .inherit {
+        .color-inherit {
           color: inherit;
         }
+        .variant-headline {
+          font-size: 2rem;
+          line-height: 1.2;
+          letter-spacing: 0.05em;
+        }
+        .variant-subtitle {
+          font-size: 1.2rem;
+          line-height: 1.4;
+          letter-spacing: 0.02em;
+        }
+        .variant-body1 {
+          font-size: 1rem;
+        }
+        .variant-body2 {
+          font-size: 0.9rem;
+        }
+        .variant-button {
+          font-size: 1.1rem;
+          text-transform: uppercase;
+        }
+        .variant-caption {
+          font-size: 0.9rem;
+        }
+        .variant-overline {
+          font-size: 1rem;
+          letter-spacing: 0.1em;
+        }
+        .weight-ultra-light {
+          font-weight: 200;
+        }
+        .weight-regular {
+          font-weight: 400;
+        }
+        .weight-medium {
+          font-weight: 500;
+        }
+        .weight-semi-bold {
+          font-weight: 600;
+        }
+        .weight-bold {
+          font-weight: 700;
+        }
       `}</style>
-    </p>
+    </Component>
   )
 }
 
