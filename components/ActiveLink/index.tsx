@@ -1,15 +1,15 @@
 import React, { ReactElement, Children } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
+import Link, { LinkProps } from 'next/link'
 
 type Props = {
   children: ReactElement<{ className?: string | null }> // for just children the best is ReactNode
   activeClassName: string
-  href: string
-}
+} & LinkProps
 
 const ActiveLink = ({ children, activeClassName, ...restProps }: Props) => {
   const { asPath } = useRouter()
+
   const child = Children.only(children)
   const childClassName = child.props.className || ''
 

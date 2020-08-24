@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production node server.js",
     "analyze": "ANALYZE=true yarn build",
     "analyze-source-maps": "rimraf .next && GENERATE_SOURCE_MAPS=true yarn build && source-map-explorer .next/static/*/*.js",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook"
   },
   "author": "Mateusz Walendzik <mate.walendzik@gmail.com>",
@@ -18,6 +18,7 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "classnames": "^2.2.6",
     "next": "latest",
     "next-i18next": "^4.5.0",
     "react": "^16.7.0",
@@ -31,6 +32,7 @@
     "@storybook/addon-knobs": "^5.3.19",
     "@storybook/addons": "^5.3.19",
     "@storybook/react": "^5.3.19",
+    "@types/classnames": "^2.2.10",
     "@types/node": "^14.0.18",
     "@types/react": "^16.9.41",
     "@types/styled-jsx": "^2.2.8",
@@ -46,6 +48,7 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "source-map-explorer": "^2.4.2",
+    "storybook-addon-next-router": "^2.0.0",
     "typescript": "^3.9.6"
   }
 }

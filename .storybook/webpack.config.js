@@ -14,5 +14,9 @@ module.exports = ({ config }) => {
   });
 
   config.resolve.extensions.push('.ts', '.tsx');
+  config.resolve.alias = {
+    ...config.resolve.alias,
+    '@ui': path.resolve(__dirname, '../components'),
+  };
   return config;
 };

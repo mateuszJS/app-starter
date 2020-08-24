@@ -22,13 +22,16 @@ const Nav = () => (
           </ActiveLink>
         </li>
         <li>
-          <ActiveLink activeClassName="active" href="/amp-example">
+          <ActiveLink activeClassName="active" href="/amp-example" prefetch={false}>
             <a className="nav-link">Amp Example</a>
           </ActiveLink>
         </li>
       </ul>
     </nav>
     <style jsx>{`
+      .active {
+        color: white;
+      }
       .root {
         background-color: ${theme.colors.accent};
       }

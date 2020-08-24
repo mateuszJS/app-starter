@@ -1,19 +1,42 @@
+import { Trans, TransProps } from 'react-i18next'
+import classnames from 'classnames'
+import { theme } from '@ui'
+
 type Props = {
   width?: number
   loader?: boolean
   tKey?: string
-}
+  color?: 'accent' | 'secondary' | 'inherit'
+  activeClassName?: string
+} & Pick<TransProps, 'components' | 'values' | 'children'>
 
-const Typography = ({ tKey }: Props) => {
+const Typography = ({
+  width,
+  loader,
+  tKey,
+  children,
+  color,
+  activeClassName,
+  ...restProps
+}: Props) => {
   return (
-    <h1 className="root">
-      {tKey}
+    <p className={classnames('root', color, activeClassName)}>
+      {tKey ? <Trans i18nKey={tKey} {...restProps} /> : children}
       <style jsx>{`
-        .root {
-          color: darkblue;
+        .primary {
+          color: ${theme.colors.primary};
+        }
+        .accent {
+          color: ${theme.colors.accent};
+        }
+        .secondary {
+          color: ${theme.colors.secondary};
+        }
+        .inherit {
+          color: inherit;
         }
       `}</style>
-    </h1>
+    </p>
   )
 }
 

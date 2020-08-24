@@ -1,16 +1,33 @@
 import React from 'react'
-import { text } from '@storybook/addon-knobs'
-import Typography from '.'
+import { text, select } from '@storybook/addon-knobs'
+import Typo from '.'
 
 export default {
   title: 'Typography',
-  component: Typography,
+  component: Typo,
 }
 
 export const Text = () => {
-  const props = {
-    tKey: text('tKey', 'Hello Typography'),
-  }
-
-  return <Typography {...props} />
+  return (
+    <>
+      <Typo activeClassName="custom">
+        aa
+        <Typo
+          tKey={text('tKey', 'Hello Typography')}
+          color={select(
+            'color',
+            [undefined, 'accent', 'secondary', 'inherit'] as Array<
+              'accent' | 'secondary' | 'inherit'
+            >,
+            undefined,
+          )}
+        />
+      </Typo>
+      <style jsx>{`
+        .custom {
+          color: tomato;
+        }
+      `}</style>
+    </>
+  )
 }
