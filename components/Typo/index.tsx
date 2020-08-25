@@ -83,8 +83,6 @@ const Typography = ({
         }
         .loader:empty:before {
           content: ${`'\u00a0'`};
-          opacity: 0;
-          pointer-events: none;
         }
         .loader:empty:after {
           top: 0;
