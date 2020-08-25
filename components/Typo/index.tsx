@@ -3,15 +3,13 @@ import classnames from 'classnames'
 import { theme } from '@ui'
 
 type Props = {
-  loader?: boolean
+  loader?: string
   tKey?: string
   color?: 'primary' | 'accent' | 'secondary'
   variant?: 'headline' | 'subtitle' | 'body1' | 'body2' | 'button' | 'caption' | 'overline'
   weight?: 'ultra-light' | 'regular' | 'medium' | 'semi-bold' | 'bold'
-  width?: string
   className?: string
   inline?: boolean
-  loaderFakeContent?: string
 } & Pick<TransProps, 'components' | 'values' | 'children'>
 
 const mapVariantToNode = {
@@ -30,11 +28,9 @@ const Typography = ({
   color,
   variant,
   weight,
-  loader = false,
-  width = 'auto',
+  loader,
   className,
   inline,
-  loaderFakeContent = '\u00a0',
   ...restProps
 }: Props) => {
   const Component = mapVariantToNode[variant || 'body1']
@@ -52,7 +48,11 @@ const Typography = ({
       {tKey ? <Trans i18nKey={tKey} {...restProps} /> : children}
       <style jsx>{`
         .inline {
-          display: inline;
+          display: inline-block;
+        }
+        .loader:empty.inline {
+          vertical-align: middle;
+          height: 1em;
         }
         .root {
           margin: 0;
@@ -67,8 +67,11 @@ const Typography = ({
           background: black;
           position: relative;
           overflow: hidden;
-          width: ${width};
+          width: ${loader};
           border-radius: 3px;
+        }
+        .loader:empty:not(.inline) {
+          transform: scaleY(0.7);
         }
         @keyframes wave {
           0% {
@@ -79,7 +82,7 @@ const Typography = ({
           }
         }
         .loader:empty:before {
-          content: ${`'${loaderFakeContent}'`};
+          content: ${`'\u00a0'`};
           opacity: 0;
           pointer-events: none;
         }

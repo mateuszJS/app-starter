@@ -46,26 +46,24 @@ export const Text = () => {
           variant={select('variant', variants, undefined)}
           weight={select('weight', weights, undefined)}
           className={text('className', 'custom-class-name')}
-          loader={boolean('loader (is displayed when there is no content)', true)}
           inline={boolean('inline', false)}
-          width={text('width (used for loader)', '80%')}
-          loaderFakeContent={text(
-            "loaderFakeContent (can be used instead of 'width', useful when the typo is 'inline' - then 'width' won't work!)",
-            'Text',
+          loader={text(
+            'To display a loader you have to set the width of the loader (loader is visible until there is no content)',
+            '30%',
           )}
         />
         to inherit the color, font & text properties
       </Typo>
       <Typo color="secondary" variant="body1" weight="ultra-light">
-        Typo accepts{' '}
+        Typo accepts&nbsp;
         <Typo inline color="accent">
           children
-        </Typo>{' '}
-        and&nbsp;
+        </Typo>
+        &nbsp; and&nbsp;
         <Typo color="accent" inline>
           i18next properties
-        </Typo>{' '}
-        as well
+        </Typo>
+        &nbsp; as well
       </Typo>
       <style jsx>{`
         && :global(.custom) {
