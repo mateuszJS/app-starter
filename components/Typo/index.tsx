@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { theme } from '@ui'
 
 type Props = {
-  loader?: string
+  skeleton?: string
   tKey?: string
   color?: 'primary' | 'accent' | 'secondary'
   variant?: 'headline' | 'subtitle' | 'body1' | 'body2' | 'button' | 'caption' | 'overline'
@@ -28,7 +28,7 @@ const Typography = ({
   color,
   variant,
   weight,
-  loader,
+  skeleton,
   className,
   inline,
   ...restProps
@@ -41,7 +41,7 @@ const Typography = ({
         [`color-${color}`]: color,
         [`variant-${variant}`]: variant,
         [`weight-${weight}`]: weight,
-        loader: loader,
+        skeleton: skeleton,
         inline: inline,
       })}
     >
@@ -50,7 +50,7 @@ const Typography = ({
         .inline {
           display: inline-block;
         }
-        .loader:empty.inline {
+        .skeleton:empty.inline {
           vertical-align: middle;
           height: 1em;
         }
@@ -63,14 +63,14 @@ const Typography = ({
           line-height: inherit;
           text-transform: inherit;
         }
-        .loader:empty {
+        .skeleton:empty {
           background: black;
           position: relative;
           overflow: hidden;
-          width: ${loader};
+          width: ${skeleton};
           border-radius: 3px;
         }
-        .loader:empty:not(.inline) {
+        .skeleton:empty:not(.inline) {
           transform: scaleY(0.7);
         }
         @keyframes wave {
@@ -81,10 +81,10 @@ const Typography = ({
             transform: translateX(100%);
           }
         }
-        .loader:empty:before {
+        .skeleton:empty:before {
           content: ${`'\u00a0'`};
         }
-        .loader:empty:after {
+        .skeleton:empty:after {
           top: 0;
           left: 0;
           right: 0;
@@ -94,18 +94,6 @@ const Typography = ({
           animation: wave 1.6s linear 0.5s infinite;
           transform: translateX(-100%);
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-        }
-        .color-primary {
-          color: ${theme.colors.primary};
-        }
-        .color-accent {
-          color: ${theme.colors.accent};
-        }
-        .color-secondary {
-          color: ${theme.colors.secondary};
-        }
-        .color-inherit {
-          color: inherit;
         }
         .variant-headline {
           font-size: 2rem;
@@ -124,7 +112,8 @@ const Typography = ({
           font-size: 0.9rem;
         }
         .variant-button {
-          font-size: 1.1rem;
+          font-size: 1rem;
+          font-weight: 500;
           text-transform: uppercase;
         }
         .variant-caption {
@@ -133,6 +122,18 @@ const Typography = ({
         .variant-overline {
           font-size: 1rem;
           letter-spacing: 0.1em;
+        }
+        .color-primary {
+          color: ${theme.colors.primary};
+        }
+        .color-accent {
+          color: ${theme.colors.accent};
+        }
+        .color-secondary {
+          color: ${theme.colors.secondary};
+        }
+        .color-inherit {
+          color: inherit;
         }
         .weight-ultra-light {
           font-weight: 200;

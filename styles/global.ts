@@ -8,7 +8,7 @@ const styles = css.global`
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
       Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     line-height: 1.6;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   * {
@@ -30,7 +30,8 @@ const styles = css.global`
   }
 
   button {
-    background-color: yellow;
+    -moz-appearance: none;
+    -webkit-appearance: none;
   }
 `
 

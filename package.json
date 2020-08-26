@@ -22,7 +22,8 @@
     "next": "latest",
     "next-i18next": "^4.5.0",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "use-debounce": "^3.4.3"
   },
   "license": "ISC",
   "devDependencies": {

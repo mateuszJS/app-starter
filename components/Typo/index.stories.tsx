@@ -4,7 +4,6 @@ import Typo from '.'
 
 export default {
   title: 'Typography',
-  component: Typo,
 }
 
 const colors = {
@@ -34,23 +33,20 @@ const weights = {
   bold: 'bold',
 } as const
 
-export const Text = () => {
+export const TypoStory = () => {
   return (
     <div>
       {/* cannot be fragment, because class has to be added, otherwise selector "&& :global(.custom)" won't work" */}
       <Typo className="custom">
         Typo component can be used as a child of another Typo
         <Typo
-          tKey={text('tKey', 'Hello Typography')}
+          tKey={text('tKey', 'Hello Typography ←')}
           color={select('color', colors, undefined)}
           variant={select('variant', variants, undefined)}
           weight={select('weight', weights, undefined)}
           className={text('className', 'custom-class-name')}
           inline={boolean('inline', false)}
-          loader={text(
-            'To display a loader you have to set the width of the loader (loader is visible until there is no content)',
-            '30%',
-          )}
+          skeleton={text('skeleton', '30%')}
         />
         to inherit the color, font & text properties
       </Typo>
@@ -64,6 +60,10 @@ export const Text = () => {
           i18next properties
         </Typo>
         &nbsp; as well
+      </Typo>
+      <Typo variant="caption" color="secondary" weight="ultra-light">
+        To display the skeleton you have to set the width of the skeleton (skeleton is visible until
+        there is no content)
       </Typo>
       <style jsx>{`
         && :global(.custom) {
