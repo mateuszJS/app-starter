@@ -1,5 +1,6 @@
 import React from 'react'
 import { text, select, boolean } from '@storybook/addon-knobs'
+import css from 'styled-jsx/css'
 import Typo from '.'
 
 export default {
@@ -33,11 +34,20 @@ const weights = {
   bold: 'bold',
 } as const
 
+const { className: customClassName, styles } = css.resolve`
+  .root {
+    color: tomato;
+    font-size: 1.6rem;
+    letter-spacing: -0.02rem;
+    font-weight: 100;
+  }
+`
+
 export const TypoStory = () => {
   return (
     <div>
       {/* cannot be fragment, because class has to be added, otherwise selector "&& :global(.custom)" won't work" */}
-      <Typo className="custom">
+      <Typo className={customClassName}>
         Typo component can be used as a child of another Typo
         <Typo
           tKey={text('tKey', 'Hello Typography ←')}
@@ -46,7 +56,8 @@ export const TypoStory = () => {
           weight={select('weight', weights, undefined)}
           className={text('className', 'custom-class-name')}
           inline={boolean('inline', false)}
-          skeleton={text('skeleton', '30%')}
+          skeleton={boolean('skeleton', false)}
+          skeletonWidth={text('skeletonWidth', '30%')}
         />
         to inherit the color, font & text properties
       </Typo>
@@ -65,14 +76,7 @@ export const TypoStory = () => {
         To display the skeleton you have to set the width of the skeleton (skeleton is visible until
         there is no content)
       </Typo>
-      <style jsx>{`
-        && :global(.custom) {
-          color: tomato;
-          font-size: 1.6rem;
-          letter-spacing: -0.02rem;
-          font-weight: 100;
-        }
-      `}</style>
+      {styles}
     </div>
   )
 }

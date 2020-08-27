@@ -1,6 +1,7 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import React, { useState, useEffect, ReactNode, MouseEvent } from 'react'
 import classnames from 'classnames'
 import { Typo, theme } from '@ui'
+import useRipple from './hooks/useRipple'
 import Ripple from './Ripple'
 
 interface Props {
@@ -13,16 +14,34 @@ interface Props {
   loader?: boolean
   skeleton?: boolean
   icon?: string // (should refer to Icon component)
+  color?: 'secondary' | 'accent'
+  variant?: 'outlined'
+  onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
 type buttonProps = {
   type?: 'button'
   disabled?: boolean
   'aria-disabled'?: boolean
+  href?: string
 }
 
-const Button = ({ children, disabled, href, tabIndex = 0, className, tKey }: Props) => {
+const rippleTime = 850
+
+const Button = ({
+  children,
+  disabled,
+  href,
+  tabIndex = 0,
+  className,
+  tKey,
+  skeleton,
+  color,
+  variant,
+  onClick = () => null,
+}: Props) => {
   const [isMounted, setIsMounted] = useState(false)
+  const { rippleArray, addRipple } = useRipple(rippleTime)
 
   useEffect(() => {
     setIsMounted(true)
@@ -30,58 +49,110 @@ const Button = ({ children, disabled, href, tabIndex = 0, className, tKey }: Pro
 
   const enableTouchRipple = isMounted && !disabled
   const Component = href ? 'a' : 'button'
+  const onClickHandler = (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    addRipple(event)
+    onClick(event)
+  }
 
   const buttonProps: buttonProps = {}
   if (Component === 'button') {
     buttonProps.type = 'button'
     buttonProps.disabled = disabled
   } else {
+    buttonProps.href = href
     buttonProps['aria-disabled'] = disabled
   }
+  const borderWidth = 2
+  const paddingHorizontal = 9
+  const paddingVertical = 16
 
   return (
     <>
       <Component
         className={classnames('root', className, {
+          [`color-${color}`]: color,
+          [`variant-${variant}`]: variant,
           disabled: disabled,
+          skeleton: skeleton,
         })}
         tabIndex={disabled ? -1 : tabIndex}
+        onClick={onClickHandler}
         {...buttonProps}
       >
         {tKey ? <Typo tKey={tKey} variant="button" /> : children}
         {enableTouchRipple ? (
-          /* TouchRipple is only needed client-side, x2 boost on the server. */
-          <Ripple />
+          /* TouchRipple is only needed client-side */
+          <Ripple rippleArray={rippleArray} duration={rippleTime} />
         ) : null}
       </Component>
       <style jsx>{`
-        .root {
+        & {
+          display: inline-flex;
           overflow: hidden;
+          cursor: pointer;
           user-select: none;
           position: relative;
-          padding: 9px 16px;
+          padding: ${paddingHorizontal}px ${paddingVertical}px;
           border-radius: 4px;
           border: none;
-          background-color: ${theme.colors.accent};
           transition: box-shadow 250ms;
-          color: #ddd;
-          box-shadow: inset 0px -1px 2px 0px rgba(255, 255, 255, 0.1),
-            0px 2px 4px 1px rgba(0, 0, 0, 0.2);
+          color: ${theme.colors.secondary};
+          background-color: ${theme.colors.primary};
+          border-color: ${theme.colors.primary};
+          box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
         }
-        .root:hover {
-          box-shadow: inset 0px -4px 4px 0px rgba(255, 255, 255, 0.2),
-            0px 3px 6px 2px rgba(0, 0, 0, 0.25);
+        :before {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          transition: opacity 250ms;
+          pointer-events: none;
+          opacity: 0;
         }
-        .root:focus,
-        .root:active {
+        :hover:before {
+          background-color: currentColor;
+          opacity: 0.1;
+        }
+        :hover {
+          box-shadow: 0px 3px 6px 2px rgba(0, 0, 0, 0.25);
+        }
+        :focus,
+        :active {
           outline: none;
-          box-shadow: inset 0px -5px 5px 0px rgba(255, 255, 255, 0.25),
-            0px 4px 7px 2px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.3);
         }
-        .root::-moz-focus-inner {
+        ::-moz-focus-inner {
           border-style: none;
         }
-        .root.disabled {
+        .color-secondary {
+          color: ${theme.colors.primary};
+          background-color: ${theme.colors.secondary};
+          border-color: ${theme.colors.secondary};
+        }
+        .color-accent {
+          color: ${theme.colors.secondary};
+          background-color: ${theme.colors.accent};
+          border-color: ${theme.colors.accent};
+        }
+        .disabled {
+          cursor: default;
+          box-shadow: none;
+          color: ${theme.colors.disabledLight};
+          background-color: ${theme.colors.disabledDark};
+          border-color: ${theme.colors.disabledDark};
+        }
+        .disabled:before {
+          display: none;
+        }
+        .variant-outlined {
+          background: none;
+          border: ${borderWidth}px solid;
+          padding: ${paddingHorizontal - borderWidth}px ${paddingVertical - borderWidth}px;
+        }
+        .skeleton {
           box-shadow: none;
         }
       `}</style>

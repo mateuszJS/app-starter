@@ -3,13 +3,14 @@ import classnames from 'classnames'
 import { theme } from '@ui'
 
 type Props = {
-  skeleton?: string
   tKey?: string
   color?: 'primary' | 'accent' | 'secondary'
   variant?: 'headline' | 'subtitle' | 'body1' | 'body2' | 'button' | 'caption' | 'overline'
   weight?: 'ultra-light' | 'regular' | 'medium' | 'semi-bold' | 'bold'
   className?: string
   inline?: boolean
+  skeleton?: boolean
+  skeletonWidth?: string
 } & Pick<TransProps, 'components' | 'values' | 'children'>
 
 const mapVariantToNode = {
@@ -28,13 +29,14 @@ const Typography = ({
   color,
   variant,
   weight,
-  skeleton,
   className,
   inline,
+  skeleton,
+  skeletonWidth = 'auto',
   ...restProps
 }: Props) => {
   const Component = mapVariantToNode[variant || 'body1']
-
+  console.log('skeletonWidth', skeletonWidth, restProps)
   return (
     <Component
       className={classnames('root', className, {
@@ -44,15 +46,12 @@ const Typography = ({
         skeleton: skeleton,
         inline: inline,
       })}
+      style={skeleton ? { width: skeletonWidth } : undefined}
     >
       {tKey ? <Trans i18nKey={tKey} {...restProps} /> : children}
       <style jsx>{`
         .inline {
           display: inline-block;
-        }
-        .skeleton:empty.inline {
-          vertical-align: middle;
-          height: 1em;
         }
         .root {
           margin: 0;
@@ -62,38 +61,6 @@ const Typography = ({
           letter-spacing: inherit;
           line-height: inherit;
           text-transform: inherit;
-        }
-        .skeleton:empty {
-          background: black;
-          position: relative;
-          overflow: hidden;
-          width: ${skeleton};
-          border-radius: 3px;
-        }
-        .skeleton:empty:not(.inline) {
-          transform: scaleY(0.7);
-        }
-        @keyframes wave {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        .skeleton:empty:before {
-          content: ${`'\u00a0'`};
-        }
-        .skeleton:empty:after {
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          content: '';
-          position: absolute;
-          animation: wave 1.6s linear 0.5s infinite;
-          transform: translateX(-100%);
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         }
         .variant-headline {
           font-size: 2rem;
@@ -149,6 +116,19 @@ const Typography = ({
         }
         .weight-bold {
           font-weight: 700;
+        }
+        .skeleton {
+          white-space: nowrap;
+        }
+        .skeleton.inline {
+          vertical-align: middle;
+          height: 1em;
+        }
+        .skeleton:not(.inline) {
+          transform: scaleY(0.7);
+        }
+        .skeleton:before {
+          content: ${`'\u00a0'`};
         }
       `}</style>
     </Component>
