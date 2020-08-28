@@ -11,6 +11,7 @@ type Props = {
   inline?: boolean
   skeleton?: boolean
   skeletonWidth?: string
+  noWrap?: boolean
 } & Pick<TransProps, 'components' | 'values' | 'children'>
 
 const mapVariantToNode = {
@@ -23,7 +24,7 @@ const mapVariantToNode = {
   overline: 'p',
 } as const
 
-const Typography = ({
+const Typo = ({
   tKey,
   children,
   color,
@@ -33,10 +34,11 @@ const Typography = ({
   inline,
   skeleton,
   skeletonWidth = 'auto',
+  noWrap,
   ...restProps
 }: Props) => {
   const Component = mapVariantToNode[variant || 'body1']
-  console.log('skeletonWidth', skeletonWidth, restProps)
+
   return (
     <Component
       className={classnames('root', className, {
@@ -45,6 +47,7 @@ const Typography = ({
         [`weight-${weight}`]: weight,
         skeleton: skeleton,
         inline: inline,
+        'no-wrap': noWrap,
       })}
       style={skeleton ? { width: skeletonWidth } : undefined}
     >
@@ -130,9 +133,14 @@ const Typography = ({
         .skeleton:before {
           content: ${`'\u00a0'`};
         }
+        .no-wrap {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       `}</style>
     </Component>
   )
 }
 
-export default Typography
+export default Typo

@@ -58,6 +58,7 @@ export const TypoStory = () => {
           inline={boolean('inline', false)}
           skeleton={boolean('skeleton', false)}
           skeletonWidth={text('skeletonWidth', '30%')}
+          noWrap={boolean('noWrap', false)}
         />
         to inherit the color, font & text properties
       </Typo>
