@@ -1,5 +1,6 @@
 import React from 'react'
 import { text, boolean, number, select } from '@storybook/addon-knobs'
+import { action } from '@storybook/addon-actions'
 import Button from '.'
 import { Typo } from '@ui'
 
@@ -25,7 +26,7 @@ export const ButtonStory = () => (
     </Typo>
     <Button
       disabled={boolean('disabled', false)}
-      href={text('href', '')}
+      isLink={boolean('isLink', false)}
       tabIndex={number('tabIndex', 0)}
       className={text('className', 'custom-class-name')}
       tKey={text('tKey', 'Hello Button')}
@@ -33,6 +34,7 @@ export const ButtonStory = () => (
       skeleton={boolean('skeleton', false)}
       color={select('color', colors, undefined)}
       variant={select('variant', variants, undefined)}
+      onClick={action('onClick')}
     />
   </>
 )

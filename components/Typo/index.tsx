@@ -2,7 +2,7 @@ import { Trans, TransProps } from 'react-i18next'
 import classnames from 'classnames'
 import { theme } from '@ui'
 
-type Props = {
+export type TypoProps = {
   tKey?: string
   color?: 'primary' | 'accent' | 'secondary'
   variant?: 'headline' | 'subtitle' | 'body1' | 'body2' | 'button' | 'caption' | 'overline'
@@ -36,7 +36,7 @@ const Typo = ({
   skeletonWidth = 'auto',
   noWrap,
   ...restProps
-}: Props) => {
+}: TypoProps) => {
   const Component = mapVariantToNode[variant || 'body1']
 
   return (
@@ -83,7 +83,7 @@ const Typo = ({
         }
         .variant-button {
           font-size: 1rem;
-          font-weight: 500;
+          font-weight: 300;
           text-transform: uppercase;
         }
         .variant-caption {

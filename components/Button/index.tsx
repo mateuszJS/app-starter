@@ -7,7 +7,7 @@ import Ripple from './Ripple'
 interface Props {
   children?: ReactNode
   disabled?: boolean
-  href?: string
+  isLink?: boolean
   tabIndex?: number
   className?: string
   tKey?: string
@@ -23,7 +23,6 @@ type buttonProps = {
   type?: 'button'
   disabled?: boolean
   'aria-disabled'?: boolean
-  href?: string
 }
 
 const rippleTime = 850
@@ -31,7 +30,7 @@ const rippleTime = 850
 const Button = ({
   children,
   disabled,
-  href,
+  isLink,
   tabIndex = 0,
   className,
   tKey,
@@ -48,19 +47,18 @@ const Button = ({
   }, [])
 
   const enableTouchRipple = isMounted && !disabled
-  const Component = href ? 'a' : 'button'
+  const Component = isLink ? 'a' : 'button'
   const onClickHandler = (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     addRipple(event)
     onClick(event)
   }
 
   const buttonProps: buttonProps = {}
-  if (Component === 'button') {
+  if (isLink) {
+    buttonProps['aria-disabled'] = disabled
+  } else {
     buttonProps.type = 'button'
     buttonProps.disabled = disabled
-  } else {
-    buttonProps.href = href
-    buttonProps['aria-disabled'] = disabled
   }
   const borderWidth = 2
   const paddingHorizontal = 9
@@ -86,7 +84,7 @@ const Button = ({
         ) : null}
       </Component>
       <style jsx>{`
-        & {
+        .root {
           display: inline-flex;
           overflow: hidden;
           cursor: pointer;
@@ -96,10 +94,10 @@ const Button = ({
           border-radius: 4px;
           border: none;
           transition: box-shadow 250ms;
-          color: ${theme.colors.secondary};
+          color: ${theme.colors.complementary};
           background-color: ${theme.colors.primary};
           border-color: ${theme.colors.primary};
-          box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: ${theme.shadows.button.normal};
         }
         :before {
           content: '';
@@ -117,12 +115,12 @@ const Button = ({
           opacity: 0.1;
         }
         :hover {
-          box-shadow: 0px 3px 6px 2px rgba(0, 0, 0, 0.25);
+          box-shadow: ${theme.shadows.button.hover};
         }
         :focus,
         :active {
           outline: none;
-          box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.3);
+          box-shadow: ${theme.shadows.button.focus};
         }
         ::-moz-focus-inner {
           border-style: none;
@@ -133,7 +131,7 @@ const Button = ({
           border-color: ${theme.colors.secondary};
         }
         .color-accent {
-          color: ${theme.colors.secondary};
+          color: ${theme.colors.complementary};
           background-color: ${theme.colors.accent};
           border-color: ${theme.colors.accent};
         }
