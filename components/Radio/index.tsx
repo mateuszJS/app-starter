@@ -1,148 +1,106 @@
-import { useState, useLayoutEffect, useRef, FormEvent } from 'react'
+import { useState, useLayoutEffect, useRef, FormEvent, Fragment } from 'react'
 import { theme, Typo } from '@ui'
+import { getWormState, triggerWormHorizontalAnimation } from './utils'
+import { WormState } from './types'
 
-type HeightsState = {
-  size: number
-  heights: {
-    [key: string]: number
-  }
+type Option = {
+  value: string
+  label: string
+  disabled?: boolean
 }
 
-const inputs = [
-  {
-    value: 'a',
-    label: 'A',
-  },
-  {
-    value: 'b',
-    label: 'B',
-  },
-  {
-    value: 'c',
-    label: 'C',
-  },
-  {
-    value: 'd',
-    label: 'D',
-  },
-  {
-    value: 'e',
-    label: 'E',
-  },
-  {
-    value: 'f',
-    label: 'F',
-  },
-  {
-    value: 'g',
-    label: 'G',
-  },
-  {
-    value: 'h',
-    label: 'H',
-  },
-  {
-    value: 'i',
-    label: 'I',
-  },
-]
+type Props = {
+  options: Option[]
+  value: Option['value']
+  onChange: (value: Option['value']) => void
+  className?: string
+}
 
 const wormDur = 0.4
 const radioDur = 0.2
 const timing1 = 'cubic-bezier(0.45,0.05,0.55,0.95)'
 const timing2 = 'cubic-bezier(0.5,0,0.5,2)'
 
-const Radio = () => {
+const wormDefaultState: WormState = {
+  size: 0,
+  heights: {},
+}
+
+const Radio = ({ value, options, onChange, className }: Props) => {
   const rootNodeRef = useRef<HTMLDivElement | null>(null)
-  const [value, setValue] = useState(inputs[0].value)
-  const [worm, setWorm] = useState<HeightsState>({
-    size: 0,
-    heights: {},
-  })
+  const [worm, setWorm] = useState<WormState>(wormDefaultState)
+
   useLayoutEffect(() => {
-    console.log(rootNodeRef.current)
-    if (rootNodeRef.current === null) {
-      return
+    if (rootNodeRef.current && worm.size) {
+      triggerWormHorizontalAnimation(rootNodeRef.current)
     }
-    const containerX = rootNodeRef.current.getBoundingClientRect().y
-    const inputs = Array.from(
-      rootNodeRef.current.querySelectorAll('[value] + label'),
-    ) as HTMLLabelElement[]
-    const inputsHeights = inputs.reduce(
-      (result, input) => ({
-        ...result,
-        [input.htmlFor]: input.getBoundingClientRect().y - containerX,
-      }),
-      {} as HeightsState['heights'],
-    )
+  }, [value])
 
-    const heights = Object.entries(inputsHeights)
-    const maxDiff = heights[heights.length - 1][1] - heights[0][1]
+  useLayoutEffect(() => {
+    if (rootNodeRef.current) {
+      setWorm(getWormState(rootNodeRef.current, worm))
+    }
+  }, [options.reduce((acc, option) => acc + option.label, '')])
 
-    setWorm({
-      heights: inputsHeights,
-      size: Math.ceil(maxDiff * 0.15),
-    })
-  }, [])
-
-  const onChange = (event: FormEvent<HTMLInputElement>) => {
-    setValue(event.currentTarget.value)
+  const onChangeHandler = (event: FormEvent<HTMLInputElement>) => {
+    onChange(event.currentTarget.value)
   }
 
+  const wormAnimationDelayFactor = wormDur / (worm.size * 3)
+
   return (
-    <div ref={rootNodeRef}>
-      {inputs.map((input) => (
-        <>
+    <div className={className} ref={rootNodeRef}>
+      {options.map((option) => (
+        <Fragment key={option.value}>
           <input
-            id={input.value}
+            id={option.value}
             type="radio"
             name="hopping"
-            value={input.value}
-            onChange={onChange}
-            checked={value === input.value}
+            value={option.value}
+            onChange={onChangeHandler}
+            checked={value === option.value}
+            disabled={option.disabled}
           />
-          <label htmlFor={input.value}>
+          <label htmlFor={option.value}>
             <span className="dot" />
-            <Typo variant="body1">{input.label}</Typo>
+            <Typo variant="body1">{option.label}</Typo>
           </label>
-        </>
+        </Fragment>
       ))}
       {Array.from({ length: worm.size }).map((_, index) => (
         <span
-          key={index}
+          key={worm.size + index}
           className="worm"
           style={{
-            transform: `translateY(${worm.heights[value]}px)`,
-            transitionDelay: `${(wormDur / (worm.size * 3)) * index}s`,
-            animationDelay: `${(wormDur / (worm.size * 3)) * index}s`,
-            // fontSize: (wormSize - index) * (15 / wormSize),
-            // opacity: (wormSize - index) / wormSize,
+            transform: `translateY(${worm.heights[value as keyof typeof worm.heights]}px)`,
+            transitionDelay: `${wormAnimationDelayFactor * index}s`,
+            animationDelay: `${wormAnimationDelayFactor * index}s`,
+            opacity: (worm.size - index) / worm.size,
           }}
         />
       ))}
       <style jsx>{`
         div {
-          font-size: 12px;
+          font-size: 12px; /* to change size of the worm, or the radio buttons */
           margin-left: 50px;
           position: relative;
         }
         label {
           display: flex;
           cursor: pointer;
-          transition: color ${radioDur}s ${timing1};
           line-height: 1.6em;
+          color: ${theme.colors.primary};
         }
         label:not(:first-of-type) {
           margin-top: 1em;
         }
         .dot {
-          box-shadow: 0 0 0 0.15em currentColor inset, 0 0.2em 0.2em rgba(0, 0, 0, 0.2),
-            0 0.3em 0.2em rgba(0, 0, 0, 0.2) inset;
+          box-shadow: 0 0 0 0.15em currentColor inset;
           margin-right: 0.5em;
-          vertical-align: bottom;
           width: 1.5em;
           height: 1.5em;
           border-radius: 50%;
+          flex-shrink: 0;
           transition: transform ${radioDur}s ${timing2}, box-shadow ${radioDur}s ${timing1},
             color ${radioDur}s ${timing1};
         }
@@ -150,24 +108,21 @@ const Radio = () => {
           visibility: hidden;
           position: absolute;
         }
-        input:checked + label,
-        input:checked + label .dot,
-        .worm:before {
-          color: ${theme.colors.accent};
-        }
-        input:checked + label {
-          transition-delay: ${wormDur}s;
-        }
         input:checked + label .dot {
+          color: ${theme.colors.accent};
           transition-delay: ${wormDur}s;
           transform: scale(1.2);
         }
-
+        input:disabled + label {
+          color: ${theme.colors.disabledDark};
+        }
         .worm {
           position: absolute;
           top: 0.393em;
           left: 0.393em;
           transition: transform ${wormDur}s ${timing1};
+          pointer-events: none;
+          color: ${theme.colors.accent};
         }
         .worm:before {
           display: block;
@@ -181,51 +136,17 @@ const Radio = () => {
           animation-timing-function: ${timing1};
           background: currentColor;
         }
-        .worm:first-child:before,
-        .worm:last-child:before {
-          box-shadow: 0 0 1em 0 currentColor;
-        }
-        @keyframes hop1 {
+        @keyframes hop {
+          to,
           from {
-            transform: translateX(0);
-          }
-          to {
             transform: translateX(0);
           }
           50% {
             transform: translateX(-2em);
           }
         }
-        @keyframes hop2 {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(0);
-          }
-          50% {
-            transform: translateX(-2em);
-          }
-        }
-        @keyframes hop3 {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(0);
-          }
-          50% {
-            transform: translateX(-2em);
-          }
-        }
-        input:nth-of-type(1):checked ~ .worm:before {
-          animation-name: hop1;
-        }
-        input:nth-of-type(2):checked ~ .worm:before {
-          animation-name: hop2;
-        }
-        input:nth-of-type(3):checked ~ .worm:before {
-          animation-name: hop3;
+        .worm-hop .worm:before {
+          animation-name: hop;
         }
       `}</style>
     </div>
