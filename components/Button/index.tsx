@@ -1,8 +1,11 @@
 import React, { useState, useEffect, ReactNode, MouseEvent } from 'react'
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { Typo, theme } from '@ui'
 import useRipple from './hooks/useRipple'
 import Ripple from './Ripple'
+import css from 'styled-jsx/css'
 
 interface Props {
   children?: ReactNode
@@ -13,9 +16,10 @@ interface Props {
   tKey?: string
   loader?: boolean
   skeleton?: boolean
-  icon?: string // (should refer to Icon component)
   color?: 'secondary' | 'accent'
   variant?: 'outlined'
+  icon?: IconDefinition
+  iconClassName?: string
   onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
@@ -27,6 +31,12 @@ type buttonProps = {
 
 const rippleTime = 850
 
+const { className: iconRootClassName, styles: iconStyles } = css.resolve`
+  & {
+    margin-right: 5px;
+  }
+`
+
 const Button = ({
   children,
   disabled,
@@ -37,6 +47,8 @@ const Button = ({
   skeleton,
   color,
   variant,
+  icon,
+  iconClassName,
   onClick = () => null,
 }: Props) => {
   const [isMounted, setIsMounted] = useState(false)
@@ -77,15 +89,22 @@ const Button = ({
         onClick={onClickHandler}
         {...buttonProps}
       >
+        {icon && (
+          <>
+            <FontAwesomeIcon icon={icon} className={classnames(iconRootClassName, iconClassName)} />
+          </>
+        )}
         {tKey ? <Typo tKey={tKey} variant="button" /> : children}
         {enableTouchRipple ? (
           /* TouchRipple is only needed client-side */
           <Ripple rippleArray={rippleArray} duration={rippleTime} />
         ) : null}
       </Component>
+      {iconStyles}
       <style jsx>{`
         .root {
           display: inline-flex;
+          align-items: center;
           overflow: hidden;
           cursor: pointer;
           user-select: none;
@@ -152,6 +171,9 @@ const Button = ({
         }
         .skeleton {
           box-shadow: none;
+        }
+        .icon {
+          margin-right: 5px;
         }
       `}</style>
     </>

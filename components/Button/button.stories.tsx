@@ -1,6 +1,7 @@
 import React from 'react'
 import { text, boolean, number, select } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import Button from '.'
 import { Typo } from '@ui'
 
@@ -35,6 +36,8 @@ export const ButtonStory = () => (
       color={select('color', colors, undefined)}
       variant={select('variant', variants, undefined)}
       onClick={action('onClick')}
+      icon={boolean('icon', false) ? faCoffee : undefined}
+      iconClassName={text('iconClassName', 'icon-custom-class-name')}
     />
   </>
 )
