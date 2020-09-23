@@ -9,7 +9,7 @@ type Option = {
   disabled?: boolean
 }
 
-type Props = {
+export type RadioProps = {
   options: Option[]
   value: Option['value']
   onChange: (value: Option['value']) => void
@@ -26,7 +26,7 @@ const wormDefaultState: WormState = {
   heights: {},
 }
 
-const Radio = ({ value, options, onChange, className }: Props) => {
+const Radio = ({ value, options, onChange, className }: RadioProps) => {
   const rootNodeRef = useRef<HTMLDivElement | null>(null)
   const [worm, setWorm] = useState<WormState>(wormDefaultState)
 

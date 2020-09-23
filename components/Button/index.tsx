@@ -2,12 +2,12 @@ import React, { useState, useEffect, ReactNode, MouseEvent } from 'react'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
-import { Typo, theme } from '@ui'
+import { Typo, Loader, theme } from '@ui'
 import useRipple from './hooks/useRipple'
 import Ripple from './Ripple'
 import css from 'styled-jsx/css'
 
-interface Props {
+export interface ButtonProps {
   children?: ReactNode
   disabled?: boolean
   isLink?: boolean
@@ -23,13 +23,16 @@ interface Props {
   onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
-type buttonProps = {
+type btnAttributesProps = {
   type?: 'button'
   disabled?: boolean
   'aria-disabled'?: boolean
 }
 
 const rippleTime = 850
+const borderWidth = 2
+const paddingHorizontal = 9
+const paddingVertical = 16
 
 const { className: iconRootClassName, styles: iconStyles } = css.resolve`
   & {
@@ -49,8 +52,9 @@ const Button = ({
   variant,
   icon,
   iconClassName,
+  loader,
   onClick = () => null,
-}: Props) => {
+}: ButtonProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const { rippleArray, addRipple } = useRipple(rippleTime)
 
@@ -65,16 +69,13 @@ const Button = ({
     onClick(event)
   }
 
-  const buttonProps: buttonProps = {}
+  const buttonProps: btnAttributesProps = {}
   if (isLink) {
     buttonProps['aria-disabled'] = disabled
   } else {
     buttonProps.type = 'button'
     buttonProps.disabled = disabled
   }
-  const borderWidth = 2
-  const paddingHorizontal = 9
-  const paddingVertical = 16
 
   return (
     <>
@@ -84,27 +85,36 @@ const Button = ({
           [`variant-${variant}`]: variant,
           disabled: disabled,
           skeleton: skeleton,
+          loader: loader,
         })}
         tabIndex={disabled ? -1 : tabIndex}
         onClick={onClickHandler}
         {...buttonProps}
       >
-        {icon && (
-          <>
-            <FontAwesomeIcon icon={icon} className={classnames(iconRootClassName, iconClassName)} />
-          </>
+        {loader && (
+          <span className="loader-wrapper">
+            <Loader color="currentColor" />
+          </span>
         )}
-        {tKey ? <Typo tKey={tKey} variant="button" /> : children}
-        {enableTouchRipple ? (
-          /* TouchRipple is only needed client-side */
-          <Ripple rippleArray={rippleArray} duration={rippleTime} />
-        ) : null}
+        <div
+          className={classnames('content-wrapper', {
+            'hide-content': loader,
+          })}
+        >
+          {icon && (
+            <FontAwesomeIcon icon={icon} className={classnames(iconRootClassName, iconClassName)} />
+          )}
+          {tKey ? <Typo tKey={tKey} variant="button" /> : children}
+          {enableTouchRipple ? (
+            /* TouchRipple is only needed client-side */
+            <Ripple rippleArray={rippleArray} duration={rippleTime} />
+          ) : null}
+        </div>
       </Component>
       {iconStyles}
       <style jsx>{`
         .root {
-          display: inline-flex;
-          align-items: center;
+          display: inline-block;
           overflow: hidden;
           cursor: pointer;
           user-select: none;
@@ -116,9 +126,12 @@ const Button = ({
           color: ${theme.colors.complementary};
           background-color: ${theme.colors.primary};
           border-color: ${theme.colors.primary};
-          box-shadow: ${theme.shadows.button.normal};
+          box-shadow: ${theme.shadows.verySmall};
         }
-        :before {
+        .variant-outlined {
+          color: ${theme.colors.primary};
+        }
+        .root:before {
           content: '';
           position: absolute;
           top: 0;
@@ -129,19 +142,26 @@ const Button = ({
           pointer-events: none;
           opacity: 0;
         }
-        :hover:before {
+        .content-wrapper {
+          display: flex;
+          align-items: center;
+        }
+        .hide-content {
+          opacity: 0;
+        }
+        .root:hover:before {
           background-color: currentColor;
           opacity: 0.1;
         }
-        :hover {
-          box-shadow: ${theme.shadows.button.hover};
+        .root:hover {
+          box-shadow: ${theme.shadows.small};
         }
-        :focus,
-        :active {
+        .root:focus,
+        .root:active {
           outline: none;
-          box-shadow: ${theme.shadows.button.focus};
+          box-shadow: ${theme.shadows.normal};
         }
-        ::-moz-focus-inner {
+        .root::-moz-focus-inner {
           border-style: none;
         }
         .color-secondary {
@@ -149,10 +169,16 @@ const Button = ({
           background-color: ${theme.colors.secondary};
           border-color: ${theme.colors.secondary};
         }
+        .color-secondary.variant-outlined {
+          color: ${theme.colors.secondary};
+        }
         .color-accent {
           color: ${theme.colors.complementary};
           background-color: ${theme.colors.accent};
           border-color: ${theme.colors.accent};
+        }
+        .color-accent.variant-outlined {
+          color: ${theme.colors.accent};
         }
         .disabled {
           cursor: default;
@@ -160,13 +186,18 @@ const Button = ({
           color: ${theme.colors.disabledLight};
           background-color: ${theme.colors.disabledDark};
           border-color: ${theme.colors.disabledDark};
+          pointer-events: none;
+        }
+        .disabled.variant-outlined {
+          color: ${theme.colors.disabledLight};
         }
         .disabled:before {
           display: none;
         }
         .variant-outlined {
           background: none;
-          border: ${borderWidth}px solid;
+          border-width: ${borderWidth}px;
+          border-style: solid;
           padding: ${paddingHorizontal - borderWidth}px ${paddingVertical - borderWidth}px;
         }
         .skeleton {
@@ -174,6 +205,16 @@ const Button = ({
         }
         .icon {
           margin-right: 5px;
+        }
+        .loader-wrapper {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       `}</style>
     </>

@@ -37,7 +37,7 @@ const Typo = ({
   noWrap,
   ...restProps
 }: TypoProps) => {
-  const Component = mapVariantToNode[variant || 'body1']
+  const Component = inline ? 'span' : mapVariantToNode[variant || 'body1']
 
   return (
     <Component

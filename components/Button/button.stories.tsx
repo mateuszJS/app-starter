@@ -2,11 +2,10 @@ import React from 'react'
 import { text, boolean, number, select } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-import Button from '.'
-import { Typo } from '@ui'
+import ButtonUI from '.'
 
 export default {
-  title: 'Button',
+  title: 'Basic Components',
 }
 
 const colors = {
@@ -20,12 +19,9 @@ const variants = {
   outlined: 'outlined',
 } as const
 
-export const ButtonStory = () => (
+export const Button = () => (
   <>
-    <Typo color="secondary" weight="ultra-light">
-      Pass href as a prop to use anchor component instead of button
-    </Typo>
-    <Button
+    <ButtonUI
       disabled={boolean('disabled', false)}
       isLink={boolean('isLink', false)}
       tabIndex={number('tabIndex', 0)}

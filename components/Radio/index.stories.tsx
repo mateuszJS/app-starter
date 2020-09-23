@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { text, object } from '@storybook/addon-knobs'
-import Radio from '.'
+import RadioUI from '.'
 
 export default {
-  title: 'Radio',
+  title: 'Basic Components',
 }
 
-export const RadioStory = () => {
+export const Radio = () => {
   const [value, setValue] = useState('c')
   return (
-    <Radio
+    <RadioUI
       className={text('className', 'custom-class-name')}
       value={value}
       onChange={setValue}

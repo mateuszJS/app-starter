@@ -1,15 +1,15 @@
 import React from 'react'
 import { text, boolean } from '@storybook/addon-knobs'
-import Link from '.'
+import LinkUI from '.'
 
 export default {
-  title: 'Link',
+  title: 'Basic Components',
 }
 
-export const TypoStory = () => {
+export const Link = () => {
   return (
     <div>
-      <Link
+      <LinkUI
         tKey={text('tKey', 'Hello Link')}
         className={text('className', 'custom-class-name')}
         button={boolean('button', false)}

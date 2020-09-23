@@ -1,10 +1,10 @@
 import React from 'react'
 import { text, select, boolean } from '@storybook/addon-knobs'
 import css from 'styled-jsx/css'
-import Typo from '.'
+import TypoUI from '.'
 
 export default {
-  title: 'Typography',
+  title: 'Basic Components',
 }
 
 const colors = {
@@ -43,13 +43,13 @@ const { className: customClassName, styles } = css.resolve`
   }
 `
 
-export const TypoStory = () => {
+export const Typo = () => {
   return (
     <div>
-      {/* cannot be fragment, because class has to be added, otherwise selector "&& :global(.custom)" won't work" */}
-      <Typo className={customClassName}>
+      {/* cannot be fragment, because class has to be added somewhere */}
+      <TypoUI className={customClassName}>
         Typo component can be used as a child of another Typo
-        <Typo
+        <TypoUI
           tKey={text('tKey', 'Hello Typography ←')}
           color={select('color', colors, undefined)}
           variant={select('variant', variants, undefined)}
@@ -60,23 +60,23 @@ export const TypoStory = () => {
           skeletonWidth={text('skeletonWidth', '30%')}
           noWrap={boolean('noWrap', false)}
         />
-        to inherit the color, font & text properties
-      </Typo>
-      <Typo color="secondary" variant="body1" weight="ultra-light">
+        to inherit the color, font &amp; text properties
+      </TypoUI>
+      <TypoUI color="secondary" variant="body1" weight="ultra-light">
         Typo accepts&nbsp;
-        <Typo inline color="accent">
+        <TypoUI inline color="accent">
           children
-        </Typo>
+        </TypoUI>
         &nbsp; and&nbsp;
-        <Typo color="accent" inline>
+        <TypoUI color="accent" inline>
           i18next properties
-        </Typo>
+        </TypoUI>
         &nbsp; as well
-      </Typo>
-      <Typo variant="caption" color="secondary" weight="ultra-light">
+      </TypoUI>
+      <TypoUI variant="caption" color="secondary" weight="ultra-light">
         To display the skeleton you have to set the width of the skeleton (skeleton is visible until
         there is no content)
-      </Typo>
+      </TypoUI>
       {styles}
     </div>
   )
