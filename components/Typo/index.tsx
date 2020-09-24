@@ -48,6 +48,7 @@ const Typo = ({
         skeleton: skeleton,
         inline: inline,
         'no-wrap': noWrap,
+        'variant-reset': variant,
       })}
       style={skeleton ? { width: skeletonWidth } : undefined}
     >
@@ -64,6 +65,13 @@ const Typo = ({
           letter-spacing: inherit;
           line-height: inherit;
           text-transform: inherit;
+        }
+        .variant-reset {
+          font-size: initial;
+          font-weight: normal;
+          letter-spacing: normal;
+          line-height: normal;
+          text-transform: initial;
         }
         .variant-headline {
           font-size: 2rem;
