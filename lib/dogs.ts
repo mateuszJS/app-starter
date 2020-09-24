@@ -1,10 +1,10 @@
-type DogzResponse = {
+type DogsResponse = {
   message: { [key: string]: string[] }
 }
 
-export const getDogzList = async () => {
+export const getDogsList = async () => {
   try {
-    const res: DogzResponse = await fetch('https://dog.ceo/api/breeds/list/all').then((res) =>
+    const res: DogsResponse = await fetch('https://dog.ceo/api/breeds/list/all').then((res) =>
       res.json(),
     )
 

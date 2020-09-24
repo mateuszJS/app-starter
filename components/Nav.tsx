@@ -17,8 +17,8 @@ const Nav = () => (
           </ActiveLink>
         </li>
         <li>
-          <ActiveLink activeClassName="active" href="/dogz">
-            <a className="nav-link">Dogz</a>
+          <ActiveLink activeClassName="active" href="/dogs">
+            <a className="nav-link">Dogs (Static generated sites)</a>
           </ActiveLink>
         </li>
         <li>

@@ -1,5 +1,5 @@
 const DynamicComponent = () => {
-  return <h1>Dynamic Component</h1>
+  return <h1>Dynamic Loaded Component</h1>
 }
 
 export default DynamicComponent

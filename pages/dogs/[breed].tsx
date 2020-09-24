@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { GetStaticProps } from 'next'
-import { getDogzList } from 'lib/dogz'
+import { getDogsList } from 'lib/dogs'
 import { withTranslation } from '@i18n'
 import { WithTranslation } from 'next-i18next'
 
@@ -69,10 +69,10 @@ const Breed = ({ imgSrc }: Props) => {
   return (
     <>
       {/* url params and query params are available in router.query, url params will override query params! */}
-      <Link href="/dogz">
-        <a>Come back to the Dogz</a>
+      <Link href="/dogs">
+        <a>Come back to the Dogs</a>
       </Link>
-      {/* <Link href="/dogz">Breed {Router.query.breed}</Link> */}
+      {/* <Link href="/dogs">Breed {Router.query.breed}</Link> */}
       <style jsx>{`
         .image {
           display: block;
@@ -86,7 +86,7 @@ const Breed = ({ imgSrc }: Props) => {
 }
 
 export const getStaticPaths = async () => {
-  const breeds = await getDogzList()
+  const breeds = await getDogsList()
   const paths = breeds.map((breed) => ({
     params: {
       breed,
