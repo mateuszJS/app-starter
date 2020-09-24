@@ -41,6 +41,7 @@ const Link = ({ button, className, skeleton, inline, ...restProps }: LinkProps) 
           background: none;
           border: none;
           outline: none;
+          padding: 0;
         }
         .inline {
           display: inline-block;

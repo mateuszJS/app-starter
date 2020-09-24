@@ -128,6 +128,9 @@ const Button = ({
           border-color: ${theme.colors.primary};
           box-shadow: ${theme.shadows.verySmall};
         }
+        .loader {
+          pointer-events: none;
+        }
         .variant-outlined {
           color: ${theme.colors.primary};
         }
