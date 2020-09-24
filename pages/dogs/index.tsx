@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Nav from 'components/Nav'
-import { getDogzList } from 'lib/dogz'
+import { getDogsList } from 'lib/dogs'
 import { withTranslation } from '@i18n'
 import { WithTranslation } from 'next-i18next'
 
@@ -19,7 +19,7 @@ const AboutPage = ({ breeds }: Props) => (
     <ul>
       {breeds.map((breed) => (
         <li key={breed}>
-          <Link href="/dogz/[breed]" as={`/dogz/${breed}`}>
+          <Link href="/dogs/[breed]" as={`/dogs/${breed}`}>
             <a>{breed}</a>
           </Link>
         </li>
@@ -34,7 +34,7 @@ const AboutPage = ({ breeds }: Props) => (
 )
 
 export const getStaticProps = async () => {
-  const breeds = await getDogzList()
+  const breeds = await getDogsList()
 
   return {
     props: {
