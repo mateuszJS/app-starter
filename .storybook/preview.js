@@ -19,4 +19,3 @@ addDecorator(storyFn => (
 addDecorator(
   withKnobs,
 );
-

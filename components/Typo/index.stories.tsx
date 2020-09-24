@@ -1,10 +1,10 @@
 import React from 'react'
 import { text, select, boolean } from '@storybook/addon-knobs'
-import Typo from '.'
+import css from 'styled-jsx/css'
+import TypoUI from '.'
 
 export default {
-  title: 'Typography',
-  component: Typo,
+  title: 'Basic Components',
 }
 
 const colors = {
@@ -34,45 +34,49 @@ const weights = {
   bold: 'bold',
 } as const
 
-export const Text = () => {
+const { className: customClassName, styles } = css.resolve`
+  .root {
+    color: tomato;
+    font-size: 1.6rem;
+    letter-spacing: -0.02rem;
+    font-weight: 100;
+  }
+`
+
+export const Typo = () => {
   return (
     <div>
-      {/* cannot be fragment, because class has to be added, otherwise selector "&& :global(.custom)" won't work" */}
-      <Typo className="custom">
+      {/* cannot be fragment, because class has to be added somewhere */}
+      <TypoUI className={customClassName}>
         Typo component can be used as a child of another Typo
-        <Typo
-          tKey={text('tKey', 'Hello Typography')}
+        <TypoUI
+          tKey={text('tKey', 'Hello Typography ←')}
           color={select('color', colors, undefined)}
           variant={select('variant', variants, undefined)}
           weight={select('weight', weights, undefined)}
           className={text('className', 'custom-class-name')}
           inline={boolean('inline', false)}
-          loader={text(
-            'To display a loader you have to set the width of the loader (loader is visible until there is no content)',
-            '30%',
-          )}
+          skeleton={boolean('skeleton', false)}
+          skeletonWidth={text('skeletonWidth', '30%')}
+          noWrap={boolean('noWrap', false)}
         />
-        to inherit the color, font & text properties
-      </Typo>
-      <Typo color="secondary" variant="body1" weight="ultra-light">
+        to inherit the color, font &amp; text properties
+      </TypoUI>
+      <TypoUI color="secondary" variant="body1" weight="ultra-light">
         Typo accepts&nbsp;
-        <Typo inline color="accent">
+        <TypoUI inline color="accent">
           children
-        </Typo>
+        </TypoUI>
         &nbsp; and&nbsp;
-        <Typo color="accent" inline>
+        <TypoUI color="accent" inline>
           i18next properties
-        </Typo>
-        &nbsp; as well
-      </Typo>
-      <style jsx>{`
-        && :global(.custom) {
-          color: tomato;
-          font-size: 1.6rem;
-          letter-spacing: -0.02rem;
-          font-weight: 100;
-        }
-      `}</style>
+        </TypoUI>
+        &nbsp; as well.
+      </TypoUI>
+      <TypoUI variant="caption" color="secondary" weight="ultra-light">
+        This is the most common component, used almost in each basic component.
+      </TypoUI>
+      {styles}
     </div>
   )
 }

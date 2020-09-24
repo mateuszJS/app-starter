@@ -2,14 +2,16 @@ import { Trans, TransProps } from 'react-i18next'
 import classnames from 'classnames'
 import { theme } from '@ui'
 
-type Props = {
-  loader?: string
+export type TypoProps = {
   tKey?: string
   color?: 'primary' | 'accent' | 'secondary'
   variant?: 'headline' | 'subtitle' | 'body1' | 'body2' | 'button' | 'caption' | 'overline'
   weight?: 'ultra-light' | 'regular' | 'medium' | 'semi-bold' | 'bold'
   className?: string
   inline?: boolean
+  skeleton?: boolean
+  skeletonWidth?: string
+  noWrap?: boolean
 } & Pick<TransProps, 'components' | 'values' | 'children'>
 
 const mapVariantToNode = {
@@ -22,18 +24,20 @@ const mapVariantToNode = {
   overline: 'p',
 } as const
 
-const Typography = ({
+const Typo = ({
   tKey,
   children,
   color,
   variant,
   weight,
-  loader,
   className,
   inline,
+  skeleton,
+  skeletonWidth = 'auto',
+  noWrap,
   ...restProps
-}: Props) => {
-  const Component = mapVariantToNode[variant || 'body1']
+}: TypoProps) => {
+  const Component = inline ? 'span' : mapVariantToNode[variant || 'body1']
 
   return (
     <Component
@@ -41,18 +45,17 @@ const Typography = ({
         [`color-${color}`]: color,
         [`variant-${variant}`]: variant,
         [`weight-${weight}`]: weight,
-        loader: loader,
+        skeleton: skeleton,
         inline: inline,
+        'no-wrap': noWrap,
+        'variant-reset': variant,
       })}
+      style={skeleton ? { width: skeletonWidth } : undefined}
     >
       {tKey ? <Trans i18nKey={tKey} {...restProps} /> : children}
       <style jsx>{`
         .inline {
           display: inline-block;
-        }
-        .loader:empty.inline {
-          vertical-align: middle;
-          height: 1em;
         }
         .root {
           margin: 0;
@@ -63,51 +66,12 @@ const Typography = ({
           line-height: inherit;
           text-transform: inherit;
         }
-        .loader:empty {
-          background: black;
-          position: relative;
-          overflow: hidden;
-          width: ${loader};
-          border-radius: 3px;
-        }
-        .loader:empty:not(.inline) {
-          transform: scaleY(0.7);
-        }
-        @keyframes wave {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        .loader:empty:before {
-          content: ${`'\u00a0'`};
-          opacity: 0;
-          pointer-events: none;
-        }
-        .loader:empty:after {
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          content: '';
-          position: absolute;
-          animation: wave 1.6s linear 0.5s infinite;
-          transform: translateX(-100%);
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-        }
-        .color-primary {
-          color: ${theme.colors.primary};
-        }
-        .color-accent {
-          color: ${theme.colors.accent};
-        }
-        .color-secondary {
-          color: ${theme.colors.secondary};
-        }
-        .color-inherit {
-          color: inherit;
+        .variant-reset {
+          font-size: initial;
+          font-weight: normal;
+          letter-spacing: normal;
+          line-height: normal;
+          text-transform: initial;
         }
         .variant-headline {
           font-size: 2rem;
@@ -126,7 +90,8 @@ const Typography = ({
           font-size: 0.9rem;
         }
         .variant-button {
-          font-size: 1.1rem;
+          font-size: 1rem;
+          font-weight: 300;
           text-transform: uppercase;
         }
         .variant-caption {
@@ -135,6 +100,18 @@ const Typography = ({
         .variant-overline {
           font-size: 1rem;
           letter-spacing: 0.1em;
+        }
+        .color-primary {
+          color: ${theme.colors.primary};
+        }
+        .color-accent {
+          color: ${theme.colors.accent};
+        }
+        .color-secondary {
+          color: ${theme.colors.secondary};
+        }
+        .color-inherit {
+          color: inherit;
         }
         .weight-ultra-light {
           font-weight: 200;
@@ -151,9 +128,27 @@ const Typography = ({
         .weight-bold {
           font-weight: 700;
         }
+        .skeleton {
+          white-space: nowrap;
+        }
+        .skeleton.inline {
+          vertical-align: middle;
+          height: 1em;
+        }
+        .skeleton:not(.inline) {
+          transform: scaleY(0.7);
+        }
+        .skeleton:before {
+          content: ${`'\u00a0'`};
+        }
+        .no-wrap {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       `}</style>
     </Component>
   )
 }
 
-export default Typography
+export default Typo

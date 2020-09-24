@@ -2,11 +2,11 @@ import React from 'react'
 import ActiveLink from '.'
 import { withNextRouter } from 'storybook-addon-next-router'
 
-export default {
-  title: 'ActiveLink',
-  component: ActiveLink,
-  decorators: [withNextRouter],
-}
+// export default {
+//   title: 'ActiveLink',
+//   component: ActiveLink,
+//   decorators: [withNextRouter],
+// }
 
 export const ActiveLinkStory = () => {
   return (
