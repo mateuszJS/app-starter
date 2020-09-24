@@ -71,11 +71,10 @@ export const Typo = () => {
         <TypoUI color="accent" inline>
           i18next properties
         </TypoUI>
-        &nbsp; as well
+        &nbsp; as well.
       </TypoUI>
       <TypoUI variant="caption" color="secondary" weight="ultra-light">
-        To display the skeleton you have to set the width of the skeleton (skeleton is visible until
-        there is no content)
+        This is the most common component, used almost in each basic component.
       </TypoUI>
       {styles}
     </div>
