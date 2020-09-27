@@ -69,8 +69,8 @@ const Breed = ({ imgSrc }: Props) => {
   return (
     <>
       <h1>
-        If you will provide id from dog api, but non-existing in navigation, then new site should be
-        generated, and stored so future requests should be much faster
+        If you will provide id (in the url) from dog api, but non-existing in navigation, then new
+        site should be generated, and stored so future requests should be much faster
       </h1>
       {/* url params and query params are available in router.query, url params will override query params! */}
       <Link href="/dogs">
