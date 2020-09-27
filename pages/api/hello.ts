@@ -1,36 +1,45 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import path from 'path'
+import fs from 'fs'
+import Mixpanel from 'mixpanel'
+import url from 'url'
 
-// import Cors from 'cors'
+const filePath = path.resolve('.', 'public/images/pixel.png')
+const stat = fs.statSync(filePath)
 
-// // Initializing the cors middleware
-// const cors = Cors({
-//   methods: ['GET', 'HEAD'],
-// })
+const mixpanel = Mixpanel.init(process.env.MIXPANEL_KEY as string, {
+  protocol: 'https',
+})
 
-// // Helper method to wait for a middleware to execute before continuing
-// // And to throw an error when an error happens in a middleware
-// function runMiddleware(req, res, fn) {
-//   return new Promise((resolve, reject) => {
-//     fn(req, res, (result) => {
-//       if (result instanceof Error) {
-//         return reject(result)
-//       }
-
-//       return resolve(result)
-//     })
-//   })
-// }
+const sendDataToMixpanel = (queryParam: string, ip: string | undefined) => {
+  const id = queryParam.slice(0, -1)
+  const actionType = queryParam[queryParam.length - 1]
+  mixpanel.people.set(
+    id,
+    {
+      read: true,
+    },
+    {
+      $ip: ip,
+    },
+  )
+  mixpanel.people.increment(id, actionType)
+}
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  // await runMiddleware(req, res, cors)
+  const queryParam = url.parse(req.url || '', true).query.v as string
 
-  res.status(200).json({ text: 'Hello' })
+  if (queryParam) {
+    const xForwarderHeader = (req.headers['x-forwarded-for'] as string) || ''
+    const lastProxy = xForwarderHeader.split(',').pop() || ''
+    const ip = lastProxy.trim() || req.connection.remoteAddress || req.socket.remoteAddress
+    sendDataToMixpanel(queryParam, ip)
+  }
 
-  // res.statusCode = 200
-  // res.setHeader('Content-Type', 'application/json')
-  // res.end(JSON.stringify({ name: 'John Doe' }))
-
-  // const {
-  //   query: { pid }, // the same as with pages
-  // } = req
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': stat.size,
+  })
+  const readStream = fs.createReadStream(filePath)
+  readStream.pipe(res)
 }
