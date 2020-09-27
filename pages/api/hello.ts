@@ -29,17 +29,20 @@ const sendDataToMixpanel = (queryParam: string, ip: string | undefined) => {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const queryParam = url.parse(req.url || '', true).query.v as string
 
+  const xForwarderHeader = (req.headers['x-forwarded-for'] as string) || ''
+  const lastProxy = xForwarderHeader.split(',').pop() || ''
+  const ip = lastProxy.trim() || req.connection.remoteAddress || req.socket.remoteAddress
+
   if (queryParam) {
-    const xForwarderHeader = (req.headers['x-forwarded-for'] as string) || ''
-    const lastProxy = xForwarderHeader.split(',').pop() || ''
-    const ip = lastProxy.trim() || req.connection.remoteAddress || req.socket.remoteAddress
     sendDataToMixpanel(queryParam, ip)
   }
 
-  res.writeHead(200, {
-    'Content-Type': 'image/png',
-    'Content-Length': stat.size,
-  })
-  const readStream = fs.createReadStream(filePath)
-  readStream.pipe(res)
+  res.status(200).json({ ip })
+
+  // res.writeHead(200, {
+  //   'Content-Type': 'image/png',
+  //   'Content-Length': stat.size,
+  // })
+  // const readStream = fs.createReadStream(filePath)
+  // readStream.pipe(res)
 }
