@@ -19,6 +19,7 @@ const sendDataToMixpanel = (queryParam: string, ip: string | undefined) => {
     {
       read: true,
       ip,
+      user_ip_address: ip,
     },
     {
       $ip: ip,
