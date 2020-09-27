@@ -1,13 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
+import css from 'styled-jsx/css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { Typo, TypoProps } from '@ui'
-import css from 'styled-jsx/css'
 
 export type LinkProps = {
   href?: string
-  component?: 'a' | 'button' | 'span'
   onClick?: VoidFunction
 } & TypoProps
 
@@ -18,11 +17,9 @@ const { className: iconClassName, styles: iconStyles } = css.resolve`
 `
 
 // forwardRef needed for next.js link
-
-const Link = React.forwardRef<HTMLSpanElement | HTMLAnchorElement | HTMLButtonElement, LinkProps>(
+const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   (
     {
-      component: Component = 'a',
       className, // skeleton,
       inline,
       children,
@@ -32,7 +29,7 @@ const Link = React.forwardRef<HTMLSpanElement | HTMLAnchorElement | HTMLButtonEl
     },
     ref,
   ) => (
-    <Component
+    <a
       href={href}
       ref={ref}
       className={classnames('root', className, {
@@ -82,7 +79,7 @@ const Link = React.forwardRef<HTMLSpanElement | HTMLAnchorElement | HTMLButtonEl
           top: 1px;
         }
       `}</style>
-    </Component>
+    </a>
   ),
 )
 
