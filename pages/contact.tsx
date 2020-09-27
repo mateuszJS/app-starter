@@ -1,12 +1,11 @@
 import { GetServerSideProps } from 'next'
 import { withTranslation } from '@i18n'
 import { WithTranslation } from 'next-i18next'
-import Nav from '../components/Nav'
+import LayoutWrapper from '../components/LayoutWrapper'
 
 const ContactPage = ({ t, ...props }: { [key: string]: string } & WithTranslation) => {
   return (
-    <>
-      <Nav />
+    <LayoutWrapper>
       <p className="root">{t('title')}</p>
       <style jsx>{`
         .root {
@@ -17,7 +16,7 @@ const ContactPage = ({ t, ...props }: { [key: string]: string } & WithTranslatio
         value={JSON.stringify(props.data, null, 4)}
         style={{ width: '100%', height: 500 }}
       />
-    </>
+    </LayoutWrapper>
   )
 }
 

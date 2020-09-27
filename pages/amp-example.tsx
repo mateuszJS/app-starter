@@ -1,11 +1,10 @@
 import { withTranslation } from '@i18n'
-import Nav from '../components/Nav'
+import LayoutWrapper from '../components/LayoutWrapper'
 
 export const config = { amp: true }
 
 const IndexPage = () => (
-  <>
-    <Nav />
+  <LayoutWrapper>
     <h1>Accelerated Mobile Page</h1>
     <amp-timeago
       width="0"
@@ -15,7 +14,7 @@ const IndexPage = () => (
     >
       .
     </amp-timeago>
-  </>
+  </LayoutWrapper>
 )
 
 export default withTranslation('common')(IndexPage)

@@ -15,6 +15,12 @@ const styles = css.global`
     box-sizing: border-box;
   }
 
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
   a,
   a:hover {
     text-decoration: none;
