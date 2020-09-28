@@ -8,7 +8,7 @@ const filePath = path.resolve('.', 'public/images/pixel.png')
 const stat = fs.statSync(filePath)
 
 const mixpanel = Mixpanel.init(process.env.MIXPANEL_KEY as string, {
-  protocol: 'https',
+  api_host: 'https://api-eu.mixpanel.com',
 })
 
 const sendDataToMixpanel = (queryParam: string, ip: string | undefined) => {
@@ -19,7 +19,6 @@ const sendDataToMixpanel = (queryParam: string, ip: string | undefined) => {
     {
       read: true,
       ip,
-      user_ip_address: ip,
     },
     {
       $ip: ip,
