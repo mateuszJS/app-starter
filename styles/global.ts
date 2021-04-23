@@ -51,9 +51,9 @@ const styles = css.global`
     }
   }
   .skeleton {
-    color: transparent !important;
+    color: transparent; /* !important; in amp pages it's forbidden */
     pointer-events: none;
-    background-color: ${theme.colors.skeleton} !important;
+    background-color: ${theme.colors.skeleton}; /* !important; in amp pages it's forbidden */
     position: relative;
     overflow: hidden;
     width: auto;

@@ -1,13 +1,11 @@
 import NextLink from 'next/link'
 import LayoutWrapper from 'components/LayoutWrapper'
 import { getDogsList } from 'lib/dogs'
-import { withTranslation } from '@i18n'
-import { WithTranslation } from 'next-i18next'
 import { Typo, Link } from '@ui'
 
 type Props = {
   breeds: string[]
-} & WithTranslation
+}
 
 const AboutPage = ({ breeds }: Props) => (
   <LayoutWrapper>
@@ -40,4 +38,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default withTranslation('common')(AboutPage)
+export default AboutPage

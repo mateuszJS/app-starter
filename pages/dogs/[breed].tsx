@@ -2,12 +2,10 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { GetStaticProps } from 'next'
 import { getDogsList } from 'lib/dogs'
-import { withTranslation } from '@i18n'
-import { WithTranslation } from 'next-i18next'
 
 type Props = {
   imgSrc: string
-} & WithTranslation
+}
 
 const Breed = ({ imgSrc }: Props) => {
   const router = useRouter()
@@ -60,11 +58,11 @@ const Breed = ({ imgSrc }: Props) => {
   // works only in one page, with using query params!
   // If url before query params changed, then although will update the page
 
-  if (router.isFallback) {
-    // if page was not generated yet, then it will be visible until complete getStaticProps()
-    // only available if fallback: true
-    return <div>Loading...</div>
-  }
+  // if (router.isFallback) {
+  //   // if page was not generated yet, then it will be visible until complete getStaticProps()
+  //   // only available if fallback: true
+  //   return <div>Loading...</div>
+  // }
 
   return (
     <>
@@ -99,7 +97,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
     // true -> return 404 page
     // false -> generate a site, with new params (wasn't provided from this function)
   }
@@ -126,4 +124,4 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export default withTranslation('common')(Breed)
+export default Breed

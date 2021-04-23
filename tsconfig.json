@@ -21,21 +21,16 @@
     "paths": {
       "@ui": [
         "components"
-      ],
-      "@i18n": [
-        "i18n"
       ]
     }
   },
   "exclude": [
-    "node_modules",
+    "node_modules"
   ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "next.config.js",
-    "server.js",
-    "i18n/*.js"
+    "next.config.js"
   ]
 }

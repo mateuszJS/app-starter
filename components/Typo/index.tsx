@@ -1,4 +1,3 @@
-import { Trans, TransProps } from 'react-i18next'
 import classnames from 'classnames'
 import { theme } from '@ui'
 
@@ -12,7 +11,8 @@ export type TypoProps = {
   skeleton?: boolean
   skeletonWidth?: string
   noWrap?: boolean
-} & Pick<TransProps, 'components' | 'values' | 'children'>
+  children?: React.ReactNode
+}
 
 const mapVariantToNode = {
   headline: 'h1',
@@ -52,7 +52,8 @@ const Typo = ({
       })}
       style={skeleton ? { width: skeletonWidth } : undefined}
     >
-      {tKey ? <Trans i18nKey={tKey} {...restProps} /> : children}
+      {tKey ? `tKey: ${tKey}` : children}
+      {/* {tKey ? <Trans i18nKey={tKey} {...restProps} /> : children} */}
       <style jsx>{`
         .inline {
           display: inline-block;

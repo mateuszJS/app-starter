@@ -1,4 +1,3 @@
-import { withTranslation } from '@i18n'
 import LayoutWrapper from '../components/LayoutWrapper'
 
 export const config = { amp: true }
@@ -12,9 +11,9 @@ const IndexPage = () => (
       datetime={new Date('2020-07-13T10:47:05.541Z').toJSON()}
       layout="responsive"
     >
-      .
+      Placeholder
     </amp-timeago>
   </LayoutWrapper>
 )
 
-export default withTranslation('common')(IndexPage)
+export default IndexPage

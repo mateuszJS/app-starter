@@ -16,6 +16,9 @@
     "project": "./tsconfig.json", // Required to have rules that rely on Types.
     "tsconfigRootDir": "./"
   },
+  "env": {
+    "node": true // to use module.exports in next-i18next.config.js without linter yells
+  },
   "plugins": [ // if you are using rules, you need to include plugin here or include in extends (but then all rules are added, and you just override them here)
   ],
   "rules": {
